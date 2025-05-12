@@ -21,4 +21,8 @@ public class JwtUtil {
                 .signWith(jwtSecretKey)
                 .compact();
     }
+
+    public SecretKey getJwtSecretKey() {
+        return jwtSecretKey;
+    }
 }
