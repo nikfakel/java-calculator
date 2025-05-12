@@ -1,5 +1,12 @@
 package com.raven.calculator.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.raven.calculator.dto.AuthRequest;
 import com.raven.calculator.dto.AuthResponse;
 import com.raven.calculator.model.User;
@@ -21,7 +28,11 @@ public class AuthController {
 
     @Autowired
     private JwtUtil jwtUtil;
-
+    @Operation(summary = "Register a new user")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User registered successfully"),
+            @ApiResponse(responseCode = "400", description = "Validation error")
+    })
     @PostMapping("/register")
     public AuthResponse register(@RequestBody AuthRequest request) {
         if (userRepository.existsByUsername(request.getUsername()) || userRepository.existsByEmail(request.getEmail())) {
@@ -36,6 +47,13 @@ public class AuthController {
         return new AuthResponse(token);
     }
 
+    @Operation(summary = "Log a user",
+            description = "Validates credentials and returns a token.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Login successful",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(type = "string")))
+    })
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
 

@@ -6,6 +6,11 @@ import com.raven.calculator.dto.HistoryFilterRequest;
 import com.raven.calculator.model.CalculationHistory;
 import com.raven.calculator.service.CalculationHistoryService;
 import com.raven.calculator.service.CalculationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +19,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Calculator", description = "Perform arithmetic operations")
 @RestController
 @RequestMapping("/api")
+@SecurityRequirement(name = "BearerAuth")
 public class CalculationController {
     @Autowired
     private CalculationService calculationService;
@@ -26,6 +33,7 @@ public class CalculationController {
     @Autowired
     private CalculationHistoryService historyService;
 
+    @Operation(summary = "Perform a calculation")
     @PostMapping("/calculate")
     public CalculationResponse calculate(@Valid @RequestBody CalculationRequest request) {
         String userId = extractUserIdFromToken();
