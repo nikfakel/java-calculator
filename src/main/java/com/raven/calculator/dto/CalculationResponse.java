@@ -1,9 +1,8 @@
 package com.raven.calculator.dto;
 
-import lombok.Getter;
-
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import lombok.Getter;
 
 @Getter
 public class CalculationResponse {
@@ -16,7 +15,14 @@ public class CalculationResponse {
     private final ZonedDateTime timestamp;
     private final String userId;
 
-    public CalculationResponse(String id, String operation, BigDecimal operandA, BigDecimal operandB, BigDecimal result, ZonedDateTime timestamp, String userId) {
+    public CalculationResponse(
+            String id,
+            String operation,
+            BigDecimal operandA,
+            BigDecimal operandB,
+            BigDecimal result,
+            ZonedDateTime timestamp,
+            String userId) {
         this.id = id;
         this.operation = operation;
         this.operandA = operandA;

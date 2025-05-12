@@ -8,23 +8,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@SecurityScheme(
-        name = "BearerAuth",
-        type = SecuritySchemeType.HTTP,
-        scheme = "bearer",
-        bearerFormat = "JWT"
-)
+@SecurityScheme(name = "BearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
 public class OpenApiConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info(new Info()
-                        .title("Calculator API")
-                        .version("1.0")
-                        .description("API for Calculator Application")
-                )
-                .addSecurityItem(new io.swagger.v3.oas.models.security.SecurityRequirement()
-                        .addList("BearerAuth") );
+                .info(new Info().title("Calculator API").version("1.0").description("API for Calculator Application"))
+                .addSecurityItem(new io.swagger.v3.oas.models.security.SecurityRequirement().addList("BearerAuth"));
     }
-
 }

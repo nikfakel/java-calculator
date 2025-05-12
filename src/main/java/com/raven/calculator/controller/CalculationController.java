@@ -7,17 +7,21 @@ import com.raven.calculator.model.CalculationHistory;
 import com.raven.calculator.service.CalculationHistoryService;
 import com.raven.calculator.service.CalculationService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Calculator", description = "Perform arithmetic operations")
 @RestController
@@ -43,8 +47,7 @@ public class CalculationController {
                 CalculationHistory.Operation.valueOf(request.getOperation().name()),
                 request.getOperandA().doubleValue(),
                 request.getOperandB() != null ? request.getOperandB().doubleValue() : 0.0,
-                response.getResult()
-        );
+                response.getResult());
         return response;
     }
 
@@ -58,8 +61,7 @@ public class CalculationController {
                 filterRequest.getEndDate(),
                 filterRequest.getPage(),
                 filterRequest.getSize(),
-                filterRequest.getSortDirection()
-        );
+                filterRequest.getSortDirection());
     }
 
     @GetMapping("/history/{id}")
