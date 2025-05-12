@@ -11,37 +11,26 @@ import java.util.UUID;
 
 @Service
 public class CalculationService {
-
     public CalculationResponse calculate(CalculationRequest request, String userId) {
-        BigDecimal result;
-        switch (request.getOperation()) {
-            case ADDITION:
-                result = request.getOperandA().add(request.getOperandB());
-                break;
-            case SUBTRACTION:
-                result = request.getOperandA().subtract(request.getOperandB());
-                break;
-            case MULTIPLICATION:
-                result = request.getOperandA().multiply(request.getOperandB());
-                break;
-            case DIVISION:
+        BigDecimal result = switch (request.getOperation()) {
+            case ADDITION -> request.getOperandA().add(request.getOperandB());
+            case SUBTRACTION -> request.getOperandA().subtract(request.getOperandB());
+            case MULTIPLICATION -> request.getOperandA().multiply(request.getOperandB());
+            case DIVISION -> {
                 if (request.getOperandB().compareTo(BigDecimal.ZERO) == 0) {
                     throw new IllegalArgumentException("Division by zero is not allowed.");
                 }
-                result = request.getOperandA().divide(request.getOperandB(), 10, RoundingMode.HALF_UP);
-                break;
-            case POWER:
-                result = request.getOperandA().pow(request.getOperandB().intValue());
-                break;
-            case SQUARE_ROOT:
+                yield request.getOperandA().divide(request.getOperandB(), 10, RoundingMode.HALF_UP);
+            }
+            case POWER -> request.getOperandA().pow(request.getOperandB().intValue());
+            case SQUARE_ROOT -> {
                 if (request.getOperandA().compareTo(BigDecimal.ZERO) < 0) {
                     throw new IllegalArgumentException("Square root of negative numbers is not allowed.");
                 }
-                result = BigDecimal.valueOf(Math.sqrt(request.getOperandA().doubleValue()));
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid operation.");
-        }
+                yield BigDecimal.valueOf(Math.sqrt(request.getOperandA().doubleValue()));
+            }
+            default -> throw new IllegalArgumentException("Invalid operation.");
+        };
 
         return new CalculationResponse(
                 UUID.randomUUID().toString(),

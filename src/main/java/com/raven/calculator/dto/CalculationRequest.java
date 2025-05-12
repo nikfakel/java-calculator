@@ -9,12 +9,12 @@ public class CalculationRequest {
     private Operation operation;
 
     @NotNull
-    @DecimalMin(value = "-1000000", inclusive = true)
-    @DecimalMax(value = "1000000", inclusive = true)
+    @DecimalMin(value = "-1000000")
+    @DecimalMax(value = "1000000")
     private BigDecimal operandA;
 
-    @DecimalMin(value = "-1000000", inclusive = true)
-    @DecimalMax(value = "1000000", inclusive = true)
+    @DecimalMin(value = "-1000000")
+    @DecimalMax(value = "1000000")
     private BigDecimal operandB;
 
     // Getters and Setters
