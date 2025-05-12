@@ -1,11 +1,8 @@
 package com.raven.calculator.service;
 
-import com.raven.calculator.controller.CalculationController;
 import com.raven.calculator.model.CalculationHistory;
 import com.raven.calculator.repository.CalculationHistoryRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

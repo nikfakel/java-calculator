@@ -1,7 +1,5 @@
 package com.raven.calculator.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.raven.calculator.dto.AuthRequest;
 import com.raven.calculator.dto.AuthResponse;
 import com.raven.calculator.model.User;
@@ -40,17 +38,14 @@ public class AuthController {
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
-        Logger logger = LoggerFactory.getLogger(AuthController.class);
 
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("Invalid credentials"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            logger.error("Invalid credentials: Password mismatch for username: {}", request.getUsername());
             throw new RuntimeException("Invalid credentials");
         }
         String token = jwtUtil.generateToken(user.getUsername());
-        logger.info("JWT token generated for username: {}", user.getUsername());
         return new AuthResponse(token);
     }
 }
