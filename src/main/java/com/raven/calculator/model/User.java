@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.time.ZonedDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,6 +26,4 @@ public class User {
     @Setter
     @Column(nullable = false)
     private String password;
-
-    private ZonedDateTime createdAt = ZonedDateTime.now();
 }
