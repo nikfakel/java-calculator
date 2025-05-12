@@ -7,21 +7,19 @@ import com.raven.calculator.model.CalculationHistory;
 import com.raven.calculator.service.CalculationHistoryService;
 import com.raven.calculator.service.CalculationService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Calculator", description = "Perform arithmetic operations")
 @RestController
@@ -51,19 +49,35 @@ public class CalculationController {
         return response;
     }
 
+    @Operation(summary = "Get calculation history")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "History retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Validation error")
+    })
     @GetMapping("/history")
-    public List<CalculationHistory> getHistory(@ModelAttribute HistoryFilterRequest filterRequest) {
+    public List<CalculationHistory> getHistory(
+            @Parameter(description = "Operation type to filter history", example = "DIVISION")
+            @RequestParam(required = false) CalculationHistory.Operation operation,
+            @Parameter(description = "Start date for filtering history", example = "2025-05-01T00:00:00Z")
+            @RequestParam(required = false) ZonedDateTime startDate,
+            @Parameter(description = "End date for filtering history", example = "2025-06-12T23:59:59Z")
+            @RequestParam(required = false) ZonedDateTime endDate,
+            @Parameter(description = "Page number for pagination", example = "0")
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @Parameter(description = "Page size for pagination", example = "5")
+            @RequestParam(required = false, defaultValue = "10") int size,
+            @Parameter(description = "Sort direction for results", example = "DESC")
+            @RequestParam(required = false, defaultValue = "ASC") String sortDirection
+    ) {
         String userId = extractUserIdFromToken();
-        return calculationHistoryService.getHistory(
-                userId,
-                filterRequest.getOperation(),
-                filterRequest.getStartDate(),
-                filterRequest.getEndDate(),
-                filterRequest.getPage(),
-                filterRequest.getSize(),
-                filterRequest.getSortDirection());
+        return calculationHistoryService.getHistory(userId, operation, startDate, endDate, page, size, sortDirection);
     }
 
+    @Operation(summary = "Get calculation history by ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "History retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Validation error")
+    })
     @GetMapping("/history/{id}")
     public CalculationHistory getHistoryById(@PathVariable UUID id) {
         String userId = extractUserIdFromToken();
@@ -74,6 +88,11 @@ public class CalculationController {
         return history;
     }
 
+    @Operation(summary = "Delete calculation history by ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "History deleted successfully"),
+            @ApiResponse(responseCode = "400", description = "Validation error")
+    })
     @DeleteMapping("/history/{id}")
     public void deleteHistoryById(@PathVariable UUID id) {
         String userId = extractUserIdFromToken();
