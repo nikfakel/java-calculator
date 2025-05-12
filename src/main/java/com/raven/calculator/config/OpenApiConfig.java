@@ -9,13 +9,12 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @SecurityScheme(
-        name = "BearerAuth", // Name of the security scheme (used in @SecurityRequirement)
+        name = "BearerAuth",
         type = SecuritySchemeType.HTTP,
         scheme = "bearer",
         bearerFormat = "JWT"
 )
 public class OpenApiConfig {
-    // Optional: Customize Swagger metadata
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
