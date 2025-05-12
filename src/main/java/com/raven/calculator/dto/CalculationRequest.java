@@ -1,10 +1,12 @@
 package com.raven.calculator.dto;
 
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+
 import java.math.BigDecimal;
 
+@Getter
 public class CalculationRequest {
-
     @NotNull
     private Operation operation;
 
@@ -17,25 +19,12 @@ public class CalculationRequest {
     @DecimalMax(value = "1000000")
     private BigDecimal operandB;
 
-    // Getters and Setters
-    public Operation getOperation() {
-        return operation;
-    }
-
     public void setOperation(Operation operation) {
         this.operation = operation;
     }
 
-    public BigDecimal getOperandA() {
-        return operandA;
-    }
-
     public void setOperandA(BigDecimal operandA) {
         this.operandA = operandA;
-    }
-
-    public BigDecimal getOperandB() {
-        return operandB;
     }
 
     public void setOperandB(BigDecimal operandB) {
