@@ -7,23 +7,16 @@ import com.raven.calculator.model.CalculationHistory;
 import com.raven.calculator.service.CalculationHistoryService;
 import com.raven.calculator.service.CalculationService;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class CalculationController {
-
-    private static final Logger logger = LoggerFactory.getLogger(CalculationController.class);
-
     @Autowired
     private CalculationService calculationService;
 

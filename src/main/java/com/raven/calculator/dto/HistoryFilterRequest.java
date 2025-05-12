@@ -18,7 +18,7 @@ public class HistoryFilterRequest {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private ZonedDateTime endDate;
 
-    private int page = 0; // Default page number
-    private int size = 10; // Default page size
-    private String sortDirection = "ASC"; // Default sort direction
+    private int page = 0;
+    private int size = 10;
+    private String sortDirection = "ASC";
 }
