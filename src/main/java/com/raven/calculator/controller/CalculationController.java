@@ -2,7 +2,6 @@ package com.raven.calculator.controller;
 
 import com.raven.calculator.dto.CalculationRequest;
 import com.raven.calculator.dto.CalculationResponse;
-import com.raven.calculator.dto.HistoryFilterRequest;
 import com.raven.calculator.model.CalculationHistory;
 import com.raven.calculator.service.CalculationHistoryService;
 import com.raven.calculator.service.CalculationService;
@@ -32,8 +31,6 @@ public class CalculationController {
     @Autowired
     private CalculationHistoryService calculationHistoryService;
 
-    @Autowired
-    private CalculationHistoryService historyService;
 
     @Operation(summary = "Perform a calculation")
     @PostMapping("/calculate")
